@@ -1,41 +1,81 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
+
+  static const String _title = 'Flutter Code Sample';
+
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: _title,
+      home: MyStatefulWidget(),
+    );
+  }
+}
+
+class MyStatefulWidget extends StatefulWidget {
+  MyStatefulWidget({Key key}) : super(key: key);
+
+  @override
+  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Image(
+      image: AssetImage("assets/images/logo.jpg"),
+    ),
+    Text(      
+      'Grupos',
+      style: optionStyle,
+    ),
+    Text(
+      'Oitavas',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState((){
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cartola"),
+        title: const Text('Cartola'),
       ),
-      body: _body(),
-      drawer: Container(
-        width: 250,
-        color: Colors.yellow,
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home')
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group),
+            title: Text('Grupos')
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group_work),
+            title: Text('Oitavas')
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
 
-  _body() {
-    return Container(
-      color: Colors.white,
-      child: Center(
-        // child: _text(),
-        child: _img(),
-      ),
-    );
-  }
-
-  _img() {
+  static _img() {
     return Image.asset("assets/images/logo.jpg");
   }
 
-  _text() {
-    return Text(
-      "Hello",
-      style: TextStyle(
-        color: Colors.blue,
-        fontSize: 30,
-      ),
-    );
-  }
 }
